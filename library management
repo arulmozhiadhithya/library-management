@@ -1,0 +1,74 @@
+class Book:
+    def __init__(self, title, author):
+        self.title = title
+        self.author = author
+        self.is_available = True
+
+    def __str__(self):
+        status = "Available" if self.is_available else "Not Available"
+        return f"{self.title} by {self.author} ({status})"
+
+
+class Library:
+    def __init__(self):
+        self.books = []
+
+    def add_book(self, title, author):
+        self.books.append(Book(title, author))
+        print(f"Book added: {title}")
+
+    def borrow_book(self, title):
+        for book in self.books:
+            if book.title.lower() == title.lower() and book.is_available:
+                book.is_available = False
+                print(f"You borrowed: {book.title}")
+                return
+        print(f"Book not available: {title}")
+
+    def return_book(self, title):
+        for book in self.books:
+            if book.title.lower() == title.lower() and not book.is_available:
+                book.is_available = True
+                print(f"You returned: {book.title}")
+                return
+        print(f"This book was not borrowed: {title}")
+
+    def display_books(self):
+        print("\nAvailable Books:")
+        for book in self.books:
+            print(book)
+
+
+def main():
+    library = Library()
+    
+    while True:
+        print("\nLibrary Management System")
+        print("1. Add Book")
+        print("2. Borrow Book")
+        print("3. Return Book")
+        print("4. Display Books")
+        print("5. Exit")
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            title = input("Enter book title: ")
+            author = input("Enter book author: ")
+            library.add_book(title, author)
+        elif choice == "2":
+            title = input("Enter book title to borrow: ")
+            library.borrow_book(title)
+        elif choice == "3":
+            title = input("Enter book title to return: ")
+            library.return_book(title)
+        elif choice == "4":
+            library.display_books()
+        elif choice == "5":
+            print("Exiting...")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
+
